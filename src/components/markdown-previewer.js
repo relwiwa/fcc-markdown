@@ -1,26 +1,31 @@
 import React, { Component } from 'react';
 
-import markdownExample from '../data/markdown-example';
+import markdownExamples from '../data/markdown-example';
 import HtmlOutput from './html-output';
 import MarkdownInput from './markdown-input';
-import MarkdownInstructions from './markdown-instructions';
+import MarkdownControls from './markdown-controls';
+import UI from '../data/markdown-ui-stati';
 
 class MarkdownPreviewer extends Component {
   constructor() {
     super();
     this.state = {
       markdown: '',
-      instructions: markdownExample.intro,
-      typingDone: false,
-      displayInstructions: false,
+      instruction: '',
+      inputUIStatus: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleDisplayInstructions = this.handleDisplayInstructions.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
-    this.handleHideInstructions = this.handleHideInstructions.bind(this);
-    this.handleResetInput = this.handleResetInput.bind(this);
-    this.handleUpdateInstructions = this.handleUpdateInstructions.bind(this);
+    
+    this.instructionCategories = Object.keys(markdownExamples.examples);
+  }
+
+  componentWillMount() {
+    this.setState({
+      instruction: markdownExamples.intro,
+      inputUIStatus: UI.TYPING
+    })
   }
 
   componentDidMount() {
@@ -32,59 +37,34 @@ class MarkdownPreviewer extends Component {
   }
 
   handleChange(event) {
-    if (!this.state.displayInstructions) {
+    if (this.state.inputUIStatus === UI.USER_INPUT) {
       this.setState({
         markdown: event.target.value
       });
     }
   }
 
-  handleDisplayInstructions() {
-    this.setState({
-      displayInstructions: true
-    });
-  }
-
   handleFocus(event) {
-    if (!this.state.typingDone) {
-      clearTimeout(this.typingDone);
+    if (this.state.inputUIStatus === UI.TYPING) {
+      clearTimeout(this.typingTimeout);
       this.setState({
-        typingDone: true,
+        instruction: markdownExamples.intro,
+        inputUIStatus: UI.USER_INPUT,
         markdown: '',
-        instructions: markdownExample.intro,
-        displayInstructions: false,
       });
     }
   }
 
-  handleHideInstructions() {
-    this.setState({
-      displayInstructions: false
-    });
-  }
-
-  handleResetInput() {
-    this.setState({
-      markdown: ''
-    });
-  }
-
-  handleUpdateInstructions(instructions) {
-    this.setState({
-      instructions: markdownExample.examples[instructions]
-    });
-  }
-
   typeIntro() {
-    if (!this.state.typingDone) {
-      const letter = this.state.instructions[0];
-      const instructions = this.state.instructions.substring(1);
+    if (this.state.inputUIStatus === UI.TYPING) {
+      const letter = this.state.instruction[0];
+      const instruction = this.state.instruction.substring(1);
       const markdown = this.state.markdown + letter;
-      const typingDone = instructions.length === 0 ? true : false;
+      const inputUIStatus = instruction.length === 0 ? UI.USER_INPUT : UI.TYPING;
       this.setState({
         markdown,
-        instructions,
-        typingDone
+        instruction,
+        inputUIStatus
       });
       this.typingTimeout = setTimeout(() => {
         this.typeIntro();
@@ -94,26 +74,25 @@ class MarkdownPreviewer extends Component {
 
   render() {
     return (
-      <div className="markdown-previewer-component row">
+      <div className="markdown-previewer row">
         <div className="col-12 col-sm-6">
           <MarkdownInput
-            markdown={this.state.displayInstructions ? this.state.instructions : this.state.markdown}
+            markdown={(this.state.inputUIStatus === UI.INSTRUCTIONS) ? this.state.instruction : this.state.markdown}
             onChange={this.handleChange}
             onFocus={this.handleFocus}
           />
-          <MarkdownInstructions
-            typingDone={this.state.typingDone}
-            markdownExample={markdownExample}
-            displayInstructions={this.state.displayInstructions}
-            onDisplayInstructions={this.handleDisplayInstructions}
-            onHideInstructions={this.handleHideInstructions}
-            onResetInput={this.handleResetInput}
-            onUpdateInstructions={this.handleUpdateInstructions}
+          <MarkdownControls
+            instructionCategories={this.instructionCategories}
+            inputUIStatus={this.state.inputUIStatus}
+            onDisplayInstructions={() => this.setState({ inputUIStatus: UI.INSTRUCTIONS })}
+            onHideInstructions={() => this.setState({ inputUIStatus: UI.USER_INPUT })}
+            onResetInput={() => this.setState({ markdown: '' })}
+            onUpdateInstructions={(instruction) => this.setState({ instruction: markdownExamples.examples[instruction] })}
           />
         </div>
         <div className="col-12 col-sm-6">
           <HtmlOutput
-            markdown={this.state.displayInstructions ? this.state.instructions : this.state.markdown}
+            markdown={this.state.inputUIStatus === UI.INSTRUCTIONS ? this.state.instruction : this.state.markdown}
           />
         </div>
       </div>

@@ -11,7 +11,7 @@ const HtmlOutput = (props) => {
   };
 
   return (
-    <div className="html-output-component">
+    <div className="html-output">
       <h4 className="my-4 text-center">HTML Output</h4>
       <p
         dangerouslySetInnerHTML={text}
