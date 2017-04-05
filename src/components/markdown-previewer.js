@@ -58,9 +58,13 @@ class MarkdownPreviewer extends Component {
   typeIntro() {
     if (this.state.inputUIStatus === UI.TYPING) {
       const letter = this.state.instruction[0];
-      const instruction = this.state.instruction.substring(1);
+      const instruction = this.state.instruction.length !== 1
+        ? this.state.instruction.substring(1)
+        : markdownExamples.intro;
       const markdown = this.state.markdown + letter;
-      const inputUIStatus = instruction.length === 0 ? UI.USER_INPUT : UI.TYPING;
+      const inputUIStatus = this.state.instruction.length === 1
+        ? UI.USER_INPUT
+        : UI.TYPING;
       this.setState({
         markdown,
         instruction,
@@ -68,7 +72,14 @@ class MarkdownPreviewer extends Component {
       });
       this.typingTimeout = setTimeout(() => {
         this.typeIntro();
-      }, 200)
+      }, 200);
+    }
+    else {
+      this.typingTimeout = setTimeout(() => {
+        this.setState({
+          markdown: '',
+        });
+      }, 2500);
     }
   }
 
