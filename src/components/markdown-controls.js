@@ -15,7 +15,7 @@ const MarkdownControls = (props) => {
         <a
           href='#'
           onClick={props.onDisplayInstructions}
-          className='pull-right'
+          className='float-right'
         >Instructions</a>
       </div>
     );
