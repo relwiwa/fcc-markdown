@@ -1,6 +1,6 @@
 import React from 'react';
 
-import markdownInstructionsStyles from '../styles/markdown-controls.css';
+import markdownInstructionsStyles from '../styles/markdown-controls.scss';
 import UI from '../data/markdown-ui-stati';
 
 const MarkdownControls = (props) => {
@@ -15,7 +15,7 @@ const MarkdownControls = (props) => {
         <a
           href='#'
           onClick={props.onDisplayInstructions}
-          className='pull-right'
+          className='float-right'
         >Instructions</a>
       </div>
     );
