@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 var packageJson = require('./package');
 
-const VENDOR_LIBS = ['marked', 'react', 'react-dom'];
+const VENDOR_LIBS = ['react', 'react-dom'];
 
 const config = {
   entry: {

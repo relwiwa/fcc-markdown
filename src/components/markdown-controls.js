@@ -24,21 +24,24 @@ const MarkdownControls = (props) => {
   function renderInstructionsControls() {
     return (
       <div className="instructions-links text-center">
-        {props.instructionCategories.map((category) => {
-          return (
-            <span key={category}>
-              <a
-                href='#'
-                onClick={() => props.onUpdateInstructions(category)}
-              >
-                {category[0].toUpperCase() + category.substr(1)}
-              </a>
-              <span> </span>
-            </span>
-          );
-        })}
-        <br />
-        <a href='#' className='card-link no-wrap' onClick={props.onHideInstructions}>Go back</a>
+        <p>
+          {props.instructionCategories.map((category) => {
+            return (
+              <span key={category}>
+                <a
+                  href='#'
+                  onClick={() => props.onUpdateInstructions(category)}
+                >
+                  {category[0].toUpperCase() + category.substr(1)}
+                </a>
+                <span> </span>
+              </span>
+            );
+          })}
+        </p>
+        <p>
+          <a href='#' className='card-link no-wrap' onClick={props.onHideInstructions}>Hide Instructions</a>
+        </p>
       </div>
     );
   }

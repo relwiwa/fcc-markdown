@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
-import markdownExamples from '../data/markdown-example';
 import HtmlOutput from './html-output';
 import MarkdownInput from './markdown-input';
 import MarkdownControls from './markdown-controls';
+
+import markdownExamples from '../data/markdown-example';
 import UI from '../data/markdown-ui-stati';
 
 class MarkdownPreviewer extends Component {
@@ -85,26 +86,29 @@ class MarkdownPreviewer extends Component {
 
   render() {
     return (
-      <div className="markdown-previewer row">
-        <div className="col-12 col-sm-6">
-          <MarkdownInput
-            markdown={(this.state.inputUIStatus === UI.INSTRUCTIONS) ? this.state.instruction : this.state.markdown}
-            onChange={this.handleChange}
-            onFocus={this.handleFocus}
-          />
-          <MarkdownControls
-            instructionCategories={this.instructionCategories}
-            inputUIStatus={this.state.inputUIStatus}
-            onDisplayInstructions={() => this.setState({ inputUIStatus: UI.INSTRUCTIONS })}
-            onHideInstructions={() => this.setState({ inputUIStatus: UI.USER_INPUT })}
-            onResetInput={() => this.setState({ markdown: '' })}
-            onUpdateInstructions={(instruction) => this.setState({ instruction: markdownExamples.examples[instruction] })}
-          />
-        </div>
-        <div className="col-12 col-sm-6">
-          <HtmlOutput
-            markdown={this.state.inputUIStatus === UI.INSTRUCTIONS ? this.state.instruction : this.state.markdown}
-          />
+      <div className="markdown-previewer grid-container grid-container-padded">
+        <div className="grid-x grid-padding-x">
+          <h1 className="cell text-center">Markdown Previewer</h1>
+          <div className="cell medium-6">
+            <MarkdownInput
+              markdown={(this.state.inputUIStatus === UI.INSTRUCTIONS) ? this.state.instruction : this.state.markdown}
+              onChange={this.handleChange}
+              onFocus={this.handleFocus}
+            />
+            <MarkdownControls
+              instructionCategories={this.instructionCategories}
+              inputUIStatus={this.state.inputUIStatus}
+              onDisplayInstructions={() => this.setState({ inputUIStatus: UI.INSTRUCTIONS })}
+              onHideInstructions={() => this.setState({ inputUIStatus: UI.USER_INPUT })}
+              onResetInput={() => this.setState({ markdown: '' })}
+              onUpdateInstructions={(instruction) => this.setState({ instruction: markdownExamples.examples[instruction] })}
+            />
+          </div>
+          <div className="cell medium-6">
+            <HtmlOutput
+              markdown={this.state.inputUIStatus === UI.INSTRUCTIONS ? this.state.instruction : this.state.markdown}
+            />
+          </div>
         </div>
       </div>
     );
