@@ -33,7 +33,7 @@ class MarkdownPreviewer extends Component {
     this.typeIntro();
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     clearTimeout(this.typingTimeout);
   }
 
