@@ -7,16 +7,17 @@ const MarkdownControls = (props) => {
 
   function renderUserInputControls() {
     return (
-      <div className="instructions-links">
-        <a
-          href='#'
-          onClick={props.onResetInput}
-        >Reset</a>
-        <a
-          href='#'
-          onClick={props.onDisplayInstructions}
-          className='float-right'
-        >Instructions</a>
+      <div className="instructions-links grid-x">
+        <div className="cell small-6 align-left">
+          <a
+            onClick={props.onResetInput}
+          >Reset</a>
+        </div>
+        <div className="cell small-6 text-right">
+          <a
+            onClick={props.onDisplayInstructions}
+          >Instructions</a>
+        </div>
       </div>
     );
   }
@@ -29,7 +30,6 @@ const MarkdownControls = (props) => {
             return (
               <span key={category}>
                 <a
-                  href='#'
                   onClick={() => props.onUpdateInstructions(category)}
                 >
                   {category[0].toUpperCase() + category.substr(1)}
@@ -40,7 +40,7 @@ const MarkdownControls = (props) => {
           })}
         </p>
         <p>
-          <a href='#' className='card-link no-wrap' onClick={props.onHideInstructions}>Hide Instructions</a>
+          <a className='card-link no-wrap' onClick={props.onHideInstructions}>Hide Instructions</a>
         </p>
       </div>
     );
