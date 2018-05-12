@@ -1,7 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
+
 import MarkdownPreviewer from './components/markdown-previewer';
-import './global-styles.scss';
+
+import '../../../styles/global-styles.scss';
+import '../../../config/font-awesome';
 
 render(
   <MarkdownPreviewer />,
